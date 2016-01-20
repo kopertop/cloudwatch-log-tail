@@ -1,0 +1,26 @@
+{
+  "name": "cloudwatch-log-tail",
+  "version": "1.0.0",
+  "description": "Tail AWS CloudWatch logs from the CLI",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kopertop/cloudwatch-log-tail.git"
+  },
+  "keywords": [
+    "AWS",
+    "Cloud",
+    "Logs",
+    "CloudWatch",
+    "CLI"
+  ],
+  "author": "Chris Moyer <cmoyer@aci.info>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/kopertop/cloudwatch-log-tail/issues"
+  },
+  "homepage": "https://github.com/kopertop/cloudwatch-log-tail#readme"
+}
