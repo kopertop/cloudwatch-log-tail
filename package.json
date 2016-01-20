@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/kopertop/cloudwatch-log-tail/issues"
   },
-  "homepage": "https://github.com/kopertop/cloudwatch-log-tail#readme"
+  "homepage": "https://github.com/kopertop/cloudwatch-log-tail#readme",
+  "dependencies": {
+    "aws-sdk": "^2.2.31"
+  }
 }
