@@ -4,6 +4,7 @@
  */
 'use strict';
 
+var _ = require('lodash');
 var AWS = require('aws-sdk');
 var cloudwatchlogs = new AWS.CloudWatchLogs({ region: 'us-east-1' });
 
@@ -17,8 +18,10 @@ initialParams.endTime = new Date().getTime();
 
 var lastEventIds = [];
 
-function getLogs(params) {
-	cloudwatchlogs.filterLogEvents(params, function(error, data) {
+function getLogs(params, nextToken) {
+	var pagedParams = _.clone(params);
+	pagedParams.nextToken = nextToken;
+	cloudwatchlogs.filterLogEvents(pagedParams, function(error, data) {
 		if (error) {
 			console.log(error)
 		}
@@ -44,10 +47,13 @@ function getLogs(params) {
 			// Only change the start time if we actually received some events
 			params.startTime = lastDate.getTime();
 		}
-
-
-		params.endTime = new Date().getTime();
-		setTimeout(getLogs, 2000, params)
+		// Pageing support
+		if(data.nextToken){
+			getLogs(params, data.nextToken);
+		} else {
+			params.endTime = new Date().getTime();
+			setTimeout(getLogs, 2000, params)
+		}
 	})
 }
 getLogs(initialParams);

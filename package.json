@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/kopertop/cloudwatch-log-tail#readme",
   "dependencies": {
-    "aws-sdk": "^2.2.31"
+    "aws-sdk": "^2.2.31",
+    "lodash": "^4.0.0"
   }
 }
