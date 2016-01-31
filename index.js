@@ -56,4 +56,9 @@ function getLogs(params, nextToken) {
 		}
 	})
 }
+
+if (process.argv.length != 3) {
+	console.log("usage: node " + process.argv[1] + " LambdaLogName");
+	process.exit(1);
+}
 getLogs(initialParams);
