@@ -1,6 +1,6 @@
 {
   "name": "cloudwatch-log-tail",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Tail AWS CloudWatch logs from the CLI",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/kopertop/cloudwatch-log-tail#readme",
   "dependencies": {
-    "aws-sdk": "^2.2.31",
-    "lodash": "^4.0.0"
+    "aws-sdk": "^2.1149.0",
+    "clone": "^2.1.2"
   }
 }

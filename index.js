@@ -3,25 +3,30 @@
  *
  */
 'use strict';
+const AWS = require('aws-sdk');
+const clone = require('clone');
 
-var _ = require('lodash');
-var AWS = require('aws-sdk');
-var cloudwatchlogs = new AWS.CloudWatchLogs({ region: 'us-east-1' });
+const cloudwatchlogs = new AWS.CloudWatchLogs({ region: 'us-east-1' });
 
-var initialParams = {
-	logGroupName: '/aws/lambda/' + process.argv[2],
+const initialParams = {
+	logGroupName: process.argv[2],
 	interleaved: true,
 };
+
+if (!initialParams.logGroupName.startsWith('/')) {
+	initialParams.logGroupName = `/aws/lambda/${initialParams.logGroupName}`;
+}
+
 
 initialParams.startTime = new Date().getTime() - 60000;
 initialParams.endTime = new Date().getTime();
 
-var lastEventIds = [];
+let lastEventIds = [];
 
 function getLogs(params, nextToken) {
-	var pagedParams = _.clone(params);
+	let pagedParams = clone(params);
 	pagedParams.nextToken = nextToken;
-	cloudwatchlogs.filterLogEvents(pagedParams, function(error, data) {
+	cloudwatchlogs.filterLogEvents(pagedParams, (error, data) => {
 		if (error) {
 			console.log(error)
 		}
@@ -32,12 +37,12 @@ function getLogs(params, nextToken) {
 		}
 
 		if (data.events.length !== 0) {
-			var lastDate;
-			data.events.forEach(function(event) {
-				var ts = new Date(event.timestamp);
+			let lastDate;
+			data.events.forEach((event) => {
+				const ts = new Date(event.timestamp);
 				// Only print logs that have not already been printed
 				if(lastEventIds.indexOf(event.eventId) < 0){
-					console.log(ts + ' : ' + event.message);
+					console.log(`[${ts}]\t${event.message}`);
 					lastEventIds.push(event.eventId);
 				}
 				if(lastDate === undefined || lastDate < ts){
@@ -54,6 +59,6 @@ function getLogs(params, nextToken) {
 			params.endTime = new Date().getTime();
 			setTimeout(getLogs, 2000, params)
 		}
-	})
+	});
 }
 getLogs(initialParams);
